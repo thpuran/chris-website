@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chris | Payment</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar"><div class="nav-container"><div class="logo">Chris</div><ul class="nav-links"><li><a href="home.html">Home</a></li><li><a href="home.html#products-grid">Shop</a></li><li><a href="#" id="cartIconNav4"><i class="fas fa-shopping-bag"></i> Cart</a></li></ul><div class="menu-icon"><i class="fas fa-bars"></i></div></div></nav>
+  <div class="payment-container">
+    <h2>Secure checkout</h2>
+    <div class="payment-methods">
+      <div class="method-card" data-method="upi"><i class="fab fa-google-pay"></i> UPI</div>
+      <div class="method-card" data-method="card"><i class="fas fa-credit-card"></i> Card</div>
+      <div class="method-card" data-method="cod"><i class="fas fa-truck"></i> Cash on Delivery</div>
+    </div>
+    <div id="paymentFields" class="payment-fields"></div>
+    <button id="confirmOrderBtn" class="btn-primary btn-full">Confirm Order</button>
+    <div id="paymentMessage" class="success-message"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

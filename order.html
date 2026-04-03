@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chris | Order Summary</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar"><div class="nav-container"><div class="logo">Chris</div><ul class="nav-links"><li><a href="home.html">Home</a></li><li><a href="home.html#products-grid">Shop</a></li><li><a href="#" id="cartIconNav3"><i class="fas fa-shopping-bag"></i> Cart</a></li><li><a href="#" id="profileIconNav3"><i class="fas fa-user"></i></a></li></ul><div class="menu-icon"><i class="fas fa-bars"></i></div></div></nav>
+  <div class="order-summary-container fade-in">
+    <h2>Review order</h2>
+    <div id="orderProductSummary" class="order-product-card"></div>
+    <div id="userDetailsSection" class="user-details-card">
+      <h3>Shipping details</h3>
+      <div id="displayUserInfo"></div>
+      <button id="editAddressBtn" class="btn-secondary">Edit address</button>
+      <div id="editAddressForm" style="display:none;">
+        <input type="text" id="newAddressInput" placeholder="New address">
+        <button id="saveAddressBtn" class="btn-small">Save</button>
+      </div>
+    </div>
+    <button id="proceedToPaymentBtn" class="btn-primary btn-full">Proceed to Payment</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
