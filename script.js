@@ -171,6 +171,13 @@ function renderProductGrid() {
   }
 }
 
+document.querySelectorAll(".btn-details").forEach(button => {
+  button.addEventListener("click", () => {
+    const productId = button.getAttribute("data-id");
+    window.location.href = `product.html?id=${productId}`;
+  });
+});
+
 // ---------- PRODUCT PAGE: show details, add to cart, place order ----------
 function loadProductPage() {
   const container = document.getElementById('productDetailContainer');
