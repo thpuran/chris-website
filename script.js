@@ -1,5 +1,79 @@
-// script.js - complete frontend logic (Chris brand)
-// ---------- Global helpers & storage keys ----------
+// script.js - Theme toggle with localStorage and smooth transitions
+// ===== THEME MANAGEMENT =====
+(function() {
+  // Get theme from localStorage or default to 'light'
+  const getSavedTheme = () => {
+    return localStorage.getItem('chris-theme') || 'light';
+  };
+
+  // Apply theme to document
+  const applyTheme = (theme) => {
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+    localStorage.setItem('chris-theme', theme);
+  };
+
+  // Toggle between light and dark
+  const toggleTheme = () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    applyTheme(newTheme);
+    updateToggleIcon(newTheme);
+  };
+
+  // Update the toggle button icon
+  const updateToggleIcon = (theme) => {
+    const toggleBtn = document.getElementById('themeToggleBtn');
+    if (toggleBtn) {
+      const icon = toggleBtn.querySelector('i');
+      if (icon) {
+        if (theme === 'dark') {
+          icon.className = 'fas fa-sun';
+        } else {
+          icon.className = 'fas fa-moon';
+        }
+      }
+    }
+  };
+
+  // Create and inject theme toggle button
+  const createThemeToggle = () => {
+    // Check if button already exists
+    if (document.getElementById('themeToggleBtn')) return;
+    
+    const toggleBtn = document.createElement('button');
+    toggleBtn.id = 'themeToggleBtn';
+    toggleBtn.className = 'theme-toggle';
+    toggleBtn.setAttribute('aria-label', 'Toggle theme');
+    toggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+    toggleBtn.addEventListener('click', toggleTheme);
+    document.body.appendChild(toggleBtn);
+    
+    // Set initial icon based on current theme
+    const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    updateToggleIcon(currentTheme);
+  };
+
+  // Initialize theme on page load
+  const initTheme = () => {
+    const savedTheme = getSavedTheme();
+    applyTheme(savedTheme);
+    createThemeToggle();
+  };
+
+  // Run theme initialization when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTheme);
+  } else {
+    initTheme();
+  }
+})();
+
+// ===== EXISTING FUNCTIONALITY (Preserved from original) =====
+// Storage keys and cart management
 const STORAGE_KEYS = {
   USER: "chris_user",
   CART: "chris_cart",
@@ -16,7 +90,9 @@ function saveCart() {
 
 function updateCartCounters() {
   const total = cart.reduce((sum, item) => sum + item.quantity, 0);
-  document.querySelectorAll('#cartCount, #cartCount2, #cartCount3').forEach(el => { if(el) el.innerText = total; });
+  document.querySelectorAll('#cartCount, #cartCount2, #cartCount3').forEach(el => { 
+    if(el) el.innerText = total; 
+  });
 }
 
 function addToCart(product) {
@@ -29,10 +105,10 @@ function addToCart(product) {
 
 // Product data (dresses)
 const products = [
-  { id: 1, name: "Silk Midi Dress", price: 189, image: "https://placehold.co/600x800/eadbcb/2c2c2c?text=Silk+Dress", description: "Elegant silk blend, relaxed fit.", reviews: ["⭐️⭐️⭐️⭐️⭐️ Amazing fabric", "⭐️⭐️⭐️⭐️ True to size"] },
-  { id: 2, name: "Linen Blend Shirt Dress", price: 149, image: "https://placehold.co/600x800/e1d2c4/2c2c2c?text=Linen+Dress", description: "Breathable linen, perfect for summer.", reviews: ["⭐️⭐️⭐️⭐️✨ Love the color"] },
-  { id: 3, name: "Wool Tailored Coat", price: 279, image: "https://placehold.co/600x800/dacfc4/2c2c2c?text=Coat", description: "Oversized silhouette.", reviews: ["⭐️⭐️⭐️⭐️⭐️ Very warm"] },
-  { id: 4, name: "Knitted Maxi", price: 159, image: "https://placehold.co/600x800/f2e3d6/2c2c2c?text=Knitted", description: "Soft rib knit, ribbed hem.", reviews: ["⭐️⭐️⭐️⭐️ Cozy and chic"] }
+  { id: 1, name: "Silk Midi Dress", price: 189, image: "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=600&h=800&fit=crop", description: "Elegant silk blend, relaxed fit. Perfect for evening events.", reviews: ["⭐️⭐️⭐️⭐️⭐️ Amazing fabric and fit!", "⭐️⭐️⭐️⭐️✨ Love the color"] },
+  { id: 2, name: "Linen Blend Shirt Dress", price: 149, image: "https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=600&h=800&fit=crop", description: "Breathable linen, perfect for summer days.", reviews: ["⭐️⭐️⭐️⭐️⭐️ So comfortable", "⭐️⭐️⭐️⭐️ True to size"] },
+  { id: 3, name: "Wool Tailored Coat", price: 279, image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&h=800&fit=crop", description: "Oversized silhouette with premium wool blend.", reviews: ["⭐️⭐️⭐️⭐️⭐️ Very warm and stylish", "⭐️⭐️⭐️⭐️ Quality material"] },
+  { id: 4, name: "Knitted Maxi Dress", price: 159, image: "https://images.unsplash.com/photo-1612336307429-8a898d10e223?w=600&h=800&fit=crop", description: "Soft rib knit, ribbed hem for a cozy feel.", reviews: ["⭐️⭐️⭐️⭐️⭐️ Perfect for winter", "⭐️⭐️⭐️⭐️ Cozy and chic"] }
 ];
 
 // ---------- LOGIN PAGE ----------
@@ -73,7 +149,7 @@ if (document.getElementById('loginForm')) {
 // ---------- HOME PAGE: render products grid ----------
 function renderProductGrid() {
   const grid = document.getElementById('productGrid');
-  if (grid) {
+  if (grid && grid.children.length === 0) {
     grid.innerHTML = products.map(p => `
       <div class="product-card">
         <img src="${p.image}" alt="${p.name}">
@@ -107,7 +183,7 @@ function loadProductPage() {
       <h1>${product.name}</h1>
       <p class="product-price">$${product.price}</p>
       <p>${product.description}</p>
-      <div class="size-options"><span class="size-btn">XS</span><span class="size-btn">S</span><span class="size-btn">M</span><span class="size-btn">L</span></div>
+      <div class="size-options"><span class="size-btn">XS</span><span class="size-btn">S</span><span class="size-btn">M</span><span class="size-btn">L</span><span class="size-btn">XL</span></div>
       <button id="addToCartBtnProd" class="btn-action">🛍️ Add to Cart</button>
       <button id="placeOrderBtnProd" class="btn-action">✨ Place Order</button>
       <div class="reviews"><h4>Customer reviews</h4>${product.reviews.map(r => `<div class="review-item">${r}</div>`).join('')}</div>
@@ -115,7 +191,6 @@ function loadProductPage() {
   `;
   document.getElementById('addToCartBtnProd')?.addEventListener('click', () => addToCart(product));
   document.getElementById('placeOrderBtnProd')?.addEventListener('click', () => {
-    // save selected product for order page
     localStorage.setItem(STORAGE_KEYS.SELECTED_PRODUCT, JSON.stringify(product));
     window.location.href = "order.html";
   });
@@ -127,7 +202,7 @@ function initOrderPage() {
   const user = JSON.parse(localStorage.getItem(STORAGE_KEYS.USER));
   if (!product || !user) { alert("Missing info"); window.location.href = "home.html"; return; }
   const summaryDiv = document.getElementById('orderProductSummary');
-  summaryDiv.innerHTML = `<div class="order-item"><img src="${product.image}" style="width:80px;border-radius:12px"><div><strong>${product.name}</strong><br>$${product.price}</div></div>`;
+  summaryDiv.innerHTML = `<div class="order-item"><img src="${product.image}" style="width:80px;height:80px;object-fit:cover;border-radius:12px"><div><strong>${product.name}</strong><br>$${product.price}</div></div>`;
   const displayDiv = document.getElementById('displayUserInfo');
   function renderUser(addr) { displayDiv.innerHTML = `<p><i class="fas fa-user"></i> ${user.fullName}</p><p><i class="fas fa-envelope"></i> ${user.email}</p><p><i class="fas fa-phone"></i> ${user.phone}</p><p><i class="fas fa-map-pin"></i> ${addr}</p>`; }
   let currentAddress = user.address;
@@ -153,7 +228,7 @@ function initPayment() {
   function renderFields() {
     if (selectedMethod === 'upi') fieldsContainer.innerHTML = `<input type="text" placeholder="UPI ID (example@okhdfcbank)" id="upiId">`;
     else if (selectedMethod === 'card') fieldsContainer.innerHTML = `<input type="text" placeholder="Card Number"><input type="text" placeholder="MM/YY"><input type="text" placeholder="CVC">`;
-    else fieldsContainer.innerHTML = `<p style="padding:0.5rem">Pay on delivery — no extra fields</p>`;
+    else fieldsContainer.innerHTML = `<p style="padding:0.5rem;color:var(--text-secondary)">💵 Pay on delivery — no extra details needed</p>`;
   }
   methodDivs.forEach(m => {
     m.addEventListener('click', () => {
@@ -163,7 +238,7 @@ function initPayment() {
       renderFields();
     });
   });
-  methodDivs[0].classList.add('active');
+  if(methodDivs[0]) methodDivs[0].classList.add('active');
   renderFields();
   document.getElementById('confirmOrderBtn')?.addEventListener('click', () => {
     const msgDiv = document.getElementById('paymentMessage');
